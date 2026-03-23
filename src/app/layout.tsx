@@ -32,6 +32,7 @@ export default function RootLayout({
               <div className="flex justify-between items-center h-16">
                 <div className="flex items-center">
                   <span className="text-xl font-extrabold text-indigo-600">FiverrClone</span>
+                  <span className="ml-4 text-sm font-semibold text-gray-700 bg-gray-100 px-3 py-1 rounded-full">Content monetization</span>
                 </div>
                 <div className="flex items-center space-x-6 text-sm font-medium text-gray-600">
                   <span>connect to : <a href="https://github.com/anik22889219/loge.asi.com.git" target="_blank" rel="noreferrer" className="text-indigo-600 hover:text-indigo-800 transition-colors">https://github.com/anik22889219/loge.asi.com.git</a></span>
