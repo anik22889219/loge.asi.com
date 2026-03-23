@@ -4,7 +4,11 @@ const GigSchema = new Schema({
   sellerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   title: { type: String, required: true },
   description: { type: String, required: true },
-  category: { type: String, required: true, enum: ['Web Development', 'Graphic Design', 'Digital Marketing'] },
+  category: { 
+    type: String, 
+    required: true, 
+    enum: ['Web Development', 'Graphic Design', 'Digital Marketing', 'Video & Animation', 'Writing & Translation', 'Data & Analytics'] 
+  },
   price: { type: Number, required: true },
   imageUrl: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },

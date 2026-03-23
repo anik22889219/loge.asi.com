@@ -4,7 +4,7 @@ const OrderSchema = new Schema({
   gigId: { type: Schema.Types.ObjectId, ref: 'Gig', required: true },
   buyerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   sellerId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  status: { type: String, enum: ['pending', 'accepted', 'completed'], default: 'pending' },
+  status: { type: String, enum: ['pending', 'accepted', 'completed', 'rejected'], default: 'pending' },
   transactionId: { type: String, required: true },
   message: { type: String },
   createdAt: { type: Date, default: Date.now }
