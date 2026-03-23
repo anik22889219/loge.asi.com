@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import AuthProvider from "@/components/AuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +25,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <AuthProvider>
+          <header className="bg-white border-b border-gray-200 shadow-sm">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex justify-between items-center h-16">
+                <div className="flex items-center">
+                  <span className="text-xl font-extrabold text-indigo-600">FiverrClone</span>
+                </div>
+                <div className="flex items-center space-x-6 text-sm font-medium text-gray-600">
+                  <span>connect to : <a href="https://github.com/anik22889219/loge.asi.com.git" target="_blank" rel="noreferrer" className="text-indigo-600 hover:text-indigo-800 transition-colors">https://github.com/anik22889219/loge.asi.com.git</a></span>
+                  <span>conect to netlify : <a href="https://loge-asi-com.netlify.app" target="_blank" rel="noreferrer" className="text-indigo-600 hover:text-indigo-800 transition-colors">loge-asi-com.netlify.app</a></span>
+                </div>
+              </div>
+            </div>
+          </header>
+          <main className="min-h-screen bg-gray-50">
+            {children}
+          </main>
+        </AuthProvider>
+      </body>
     </html>
   );
 }
