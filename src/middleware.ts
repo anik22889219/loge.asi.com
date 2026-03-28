@@ -12,6 +12,9 @@ export default withAuth(
       if (isAuth) {
         return NextResponse.redirect(new URL('/dashboard', req.url));
       }
+      if (req.nextUrl.pathname.startsWith('/register')) {
+        return NextResponse.redirect(new URL('/login', req.url));
+      }
       return null;
     }
 

@@ -15,10 +15,9 @@ export async function POST(req: Request) {
 
     const formData = await req.formData();
     const videoBlob = formData.get('video') as File;
-    const idCardBlob = formData.get('idCard') as File;
 
-    if (!videoBlob || !idCardBlob) {
-      return NextResponse.json({ message: 'Missing files' }, { status: 400 });
+    if (!videoBlob) {
+      return NextResponse.json({ message: 'Missing face video file' }, { status: 400 });
     }
 
     // Local MVP storage logic (Save to /public/uploads/kyc)
@@ -30,35 +29,29 @@ export async function POST(req: Request) {
 
     const userId = (session.user as any).id;
     const videoExt = videoBlob.name.split('.').pop() || 'webm';
-    const idCardExt = idCardBlob.name.split('.').pop() || 'jpg';
     
     // Create unique timestamps
     const ts = Date.now();
     const videoFileName = `${userId}_video_${ts}.${videoExt}`;
-    const idCardFileName = `${userId}_idcard_${ts}.${idCardExt}`;
     
     const videoPath = path.join(uploadDir, videoFileName);
-    const idCardPath = path.join(uploadDir, idCardFileName);
 
     // Write Files
     const videoBuffer = Buffer.from(await videoBlob.arrayBuffer());
     fs.writeFileSync(videoPath, videoBuffer);
-    
-    const idCardBuffer = Buffer.from(await idCardBlob.arrayBuffer());
-    fs.writeFileSync(idCardPath, idCardBuffer);
 
     // Update DB record
     await connectToDatabase();
     await User.findByIdAndUpdate(userId, {
       verificationData: {
         faceVideoUrl: `/uploads/kyc/${videoFileName}`,
-        idCardUrl: `/uploads/kyc/${idCardFileName}`,
+        idCardUrl: '', // Explicitly blank as user requested only face video
         submittedAt: new Date(),
       },
-      verificationStatus: 'In Progress', // Update status
+      verificationStatus: 'Active', // Update status to Active so they don't need to verify again
     });
 
-    return NextResponse.json({ message: 'Verification data submitted' }, { status: 200 });
+    return NextResponse.json({ message: 'Video verification submitted' }, { status: 200 });
   } catch (error) {
     console.error('Error submitting verification data:', error);
     return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
